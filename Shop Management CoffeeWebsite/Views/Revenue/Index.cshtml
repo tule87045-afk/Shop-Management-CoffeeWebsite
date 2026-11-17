@@ -1,0 +1,236 @@
+﻿@model CafeManagement.Models.RevenueViewModel
+@using System.Globalization
+@{
+    ViewBag.Title = "Doanh thu";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+
+    Func<string, string> tabClass = k => Model.Period == k ? "rev-tab active" : "rev-tab";
+    string dateValue = Model.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+    bool compact = Model.Points.Count > 12;
+    bool noData = Model.OrderCount == 0;
+}
+
+<div class="rev-wrap">
+
+    <div class="order-head">
+        <h2>Thống kê doanh thu</h2>
+        <div class="order-head-links">
+            <a class="btn-pill btn-pill-outline" href="@Url.Action("History", "Order")">Tất cả hóa đơn</a>
+        </div>
+    </div>
+
+    <!-- Tổng quan nhanh -->
+    <div class="rev-quick">
+        <a class="rev-quick-card" href="@Url.Action("Index", "Revenue", new { period = "day", date = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) })">
+            <span class="rev-quick-label">Hôm nay</span>
+            <strong>@Model.TodayRevenue.ToString("N0") đ</strong>
+        </a>
+        <a class="rev-quick-card" href="@Url.Action("Index", "Revenue", new { period = "week", date = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) })">
+            <span class="rev-quick-label">Tuần này</span>
+            <strong>@Model.WeekRevenue.ToString("N0") đ</strong>
+        </a>
+        <a class="rev-quick-card" href="@Url.Action("Index", "Revenue", new { period = "month", date = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) })">
+            <span class="rev-quick-label">Tháng này</span>
+            <strong>@Model.MonthRevenue.ToString("N0") đ</strong>
+        </a>
+        <a class="rev-quick-card" href="@Url.Action("Index", "Revenue", new { period = "year", date = DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) })">
+            <span class="rev-quick-label">Năm nay</span>
+            <strong>@Model.YearRevenue.ToString("N0") đ</strong>
+        </a>
+    </div>
+
+    <!-- Chọn kỳ xem -->
+    <div class="rev-toolbar">
+        <div class="rev-tabs">
+            <a class="@tabClass("day")" href="@Url.Action("Index", "Revenue", new { period = "day", date = dateValue })">Ngày</a>
+            <a class="@tabClass("week")" href="@Url.Action("Index", "Revenue", new { period = "week", date = dateValue })">Tuần</a>
+            <a class="@tabClass("month")" href="@Url.Action("Index", "Revenue", new { period = "month", date = dateValue })">Tháng</a>
+            <a class="@tabClass("year")" href="@Url.Action("Index", "Revenue", new { period = "year", date = dateValue })">Năm</a>
+        </div>
+
+        <form method="get" action="@Url.Action("Index", "Revenue")" class="rev-date-form">
+            <input type="hidden" name="period" value="@Model.Period" />
+            <label for="rev-date">Chọn ngày:</label>
+            <input type="date" id="rev-date" name="date" value="@dateValue" max="@DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" />
+            <button type="submit" class="mg-btn mg-ok">Xem</button>
+        </form>
+    </div>
+
+    <!-- Tiêu đề kỳ + kỳ trước / sau -->
+    <div class="rev-range">
+        <a class="rev-nav" href="@Url.Action("Index", "Revenue", new { period = Model.Period, date = Model.PrevDate })">&laquo; Kỳ trước</a>
+        <h3>@Model.RangeTitle</h3>
+        @if (Model.HasNext)
+        {
+            <a class="rev-nav" href="@Url.Action("Index", "Revenue", new { period = Model.Period, date = Model.NextDate })">Kỳ sau &raquo;</a>
+        }
+        else
+        {
+            <span class="rev-nav rev-nav-off">Kỳ sau &raquo;</span>
+        }
+    </div>
+
+    <!-- Thẻ số liệu của kỳ đang xem -->
+    <div class="rev-stats">
+        <div class="rev-stat rev-stat-main">
+            <span>Tổng doanh thu</span>
+            <strong>@Model.TotalRevenue.ToString("N0") đ</strong>
+        </div>
+        <div class="rev-stat">
+            <span>Số hóa đơn</span>
+            <strong>@Model.OrderCount</strong>
+        </div>
+        <div class="rev-stat">
+            <span>Số món đã bán</span>
+            <strong>@Model.ItemCount</strong>
+        </div>
+        <div class="rev-stat">
+            <span>Trung bình / hóa đơn</span>
+            <strong>@Model.AverageOrder.ToString("N0") đ</strong>
+        </div>
+    </div>
+
+    <!-- Biểu đồ cột -->
+    <div class="rev-card">
+        <div class="rev-card-head">
+            <h3>@Model.ChartTitle</h3>
+            @if (!string.IsNullOrEmpty(Model.BestLabel))
+            {
+                <span class="rev-best">Cao nhất: @Model.BestLabel</span>
+            }
+        </div>
+
+        @if (noData)
+        {
+            <div class="mg-empty">Chưa có hóa đơn nào được thanh toán trong khoảng thời gian này.</div>
+        }
+        else
+        {
+            <div class="rev-chart@(compact ? " rev-chart-compact" : "")">
+                @foreach (var p in Model.Points)
+                {
+                    decimal pct = Model.MaxAmount > 0 ? Math.Round(p.Amount / Model.MaxAmount * 100m, 1) : 0m;
+                    if (p.Amount > 0 && pct < 2m) { pct = 2m; }
+                    <div class="rev-col" title="@p.Tooltip">
+                        <div class="rev-col-value">@(p.Amount > 0 && !compact ? (p.Amount / 1000m).ToString("N0") + "k" : "")</div>
+                        <div class="rev-col-bar-wrap">
+                            <div class="rev-col-bar@(p.Amount > 0 ? "" : " rev-col-empty")" style="height:@(pct.ToString("0.#", CultureInfo.InvariantCulture))%"></div>
+                        </div>
+                        <div class="rev-col-label">@p.Label</div>
+                        @if (!string.IsNullOrEmpty(p.SubLabel))
+                        {
+                            <div class="rev-col-sub">@p.SubLabel</div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="rev-hint">Đơn vị trên cột: nghìn đồng (k). Rê chuột vào cột để xem chi tiết.</div>
+        }
+    </div>
+
+    <!-- Món bán chạy + phương thức thanh toán -->
+    <div class="rev-two">
+        <div class="rev-card">
+            <h3>Top 5 món doanh thu cao</h3>
+            @if (Model.TopProducts.Count == 0)
+            {
+                <div class="mg-empty">Chưa có dữ liệu.</div>
+            }
+            else
+            {
+                <div class="mg-table-wrap">
+                    <table class="mg-table">
+                        <thead>
+                            <tr><th>Món</th><th class="center">SL</th><th class="num">Doanh thu</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Model.TopProducts)
+                            {
+                                <tr>
+                                    <td>@t.Name</td>
+                                    <td class="center">@t.Quantity</td>
+                                    <td class="num">@t.Amount.ToString("N0") đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <div class="rev-card">
+            <h3>Theo phương thức thanh toán</h3>
+            @if (Model.PayMethods.Count == 0)
+            {
+                <div class="mg-empty">Chưa có dữ liệu.</div>
+            }
+            else
+            {
+                <div class="mg-table-wrap">
+                    <table class="mg-table">
+                        <thead>
+                            <tr><th>Phương thức</th><th class="center">Hóa đơn</th><th class="num">Doanh thu</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pm in Model.PayMethods)
+                            {
+                                <tr>
+                                    <td>@pm.Method</td>
+                                    <td class="center">@pm.Orders</td>
+                                    <td class="num">@pm.Amount.ToString("N0") đ</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Danh sách hóa đơn trong kỳ -->
+    <div class="rev-card">
+        <h3>Hóa đơn đã thanh toán trong kỳ</h3>
+        @if (Model.Orders.Count == 0)
+        {
+            <div class="mg-empty">Không có hóa đơn nào.</div>
+        }
+        else
+        {
+            <div class="mg-table-wrap">
+                <table class="mg-table order-table">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Khách hàng</th>
+                            <th>Thanh toán lúc</th>
+                            <th class="center">Số món</th>
+                            <th>Phương thức</th>
+                            <th class="num">Tổng tiền</th>
+                            <th class="center">Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var o in Model.Orders)
+                        {
+                            <tr>
+                                <td>#@o.Id.ToString("D5")</td>
+                                <td>@(string.IsNullOrEmpty(o.CustomerName) ? "Khách" : o.CustomerName)</td>
+                                <td>@(o.PaidAt.HasValue ? o.PaidAt.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                                <td class="center">@o.ItemCount</td>
+                                <td>@o.PaymentMethod</td>
+                                <td class="num"><strong>@((o.PaidAmount ?? 0m).ToString("N0")) đ</strong></td>
+                                <td class="center">
+                                    <a class="mg-btn mg-ok" style="text-decoration:none" href="@Url.Action("Receipt", "Order", new { id = o.Id })">Xem</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            if (Model.OrdersTruncated)
+            {
+                <div class="rev-hint">Chỉ hiển thị 200 hóa đơn mới nhất của kỳ này. Tổng doanh thu phía trên vẫn tính đủ tất cả hóa đơn.</div>
+            }
+        }
+    </div>
+</div>

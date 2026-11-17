@@ -1,0 +1,89 @@
+﻿@model CafeManagement.Models.AdoptFormViewModel
+
+@{
+    ViewBag.Title = "Đăng ký nhận nuôi";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+    var cat = (CafeManagement.Models.Cat)ViewBag.Cat;
+}
+
+<div class="auth-page">
+    <div class="auth-card wide">
+
+        <h2 class="auth-title">Đăng ký nhận nuôi</h2>
+        <p class="auth-sub">Điền thông tin để Mimi liên hệ và sắp xếp buổi gặp bé</p>
+
+        <div class="mini-cat">
+            <div class="mini-cat-photo ph-@(cat.Id % 6)">
+                @if (!string.IsNullOrEmpty(cat.ImageUrl))
+                {
+                    <img src="@Url.Content(cat.ImageUrl)" alt="@cat.Name" />
+                }
+                else
+                {
+                    <span aria-hidden="true">&#128049;</span>
+                }
+            </div>
+            <div>
+                <strong>@cat.Name</strong>
+                <span class="meta">@(cat.Gender + " · " + cat.AgeText + (string.IsNullOrEmpty(cat.Breed) ? "" : " · " + cat.Breed))</span>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("Adopt", "Adoption", FormMethod.Post, new { novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.CatId)
+
+            <div class="field">
+                @Html.LabelFor(m => m.FullName)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">person</span>
+                    @Html.TextBoxFor(m => m.FullName, new { placeholder = "Nguyễn Văn A" })
+                </div>
+                @Html.ValidationMessageFor(m => m.FullName)
+            </div>
+
+            <div class="row-2">
+                <div class="field">
+                    @Html.LabelFor(m => m.Phone)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">call</span>
+                        @Html.TextBoxFor(m => m.Phone, new { placeholder = "09xxxxxxxx", type = "tel" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(m => m.Email)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">mail</span>
+                        @Html.TextBoxFor(m => m.Email, new { placeholder = "ban@example.com", type = "email" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Address)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">home</span>
+                    @Html.TextBoxFor(m => m.Address, new { placeholder = "Số nhà, đường, quận/huyện, tỉnh/thành" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Address)
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Note)
+                <div class="input-wrap top-icon">
+                    <span class="material-symbols-outlined">edit_note</span>
+                    @Html.TextAreaFor(m => m.Note, new { placeholder = "Bạn đã từng nuôi mèo chưa? Nhà có ai nuôi thú cưng khác không?" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Note)
+            </div>
+
+            <button type="submit" class="btn-submit btn-submit-adopt">Gửi đơn nhận nuôi</button>
+        }
+
+        <a class="back-home" href="@Url.Action("Index", "Adoption")">&larr; Quay lại danh sách mèo</a>
+    </div>
+</div>

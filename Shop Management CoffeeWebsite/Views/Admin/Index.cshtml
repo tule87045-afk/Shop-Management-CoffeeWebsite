@@ -1,0 +1,117 @@
+﻿
+@model IEnumerable<CafeManagement.Models.Product>
+
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<div class="admin-page">
+
+    <h2>QUẢN LÝ SẢN PHẨM</h2>
+
+    <p class="admin-subtitle">
+        Mimi Coffee Shop - Quản lý danh sách đồ uống
+    </p>
+
+    <p>
+        @Html.ActionLink(
+                 "← Quay lại trang chủ",
+                 "Index",
+                 "SanPham",
+                 null,
+                 new { @class = "btn btn-home" }
+             )
+
+        @Html.ActionLink(
+                 "+ Thêm sản phẩm mới",
+                 "Create",
+                 null,
+                 new { @class = "btn btn-create" }
+             )
+    </p>
+
+    <div class="admin-table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá bán</th>
+                    <th>Hình ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Size</th>
+                    <th>Ingredients</th>
+                    <th>Thời gian pha chế</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <strong>@item.Name</strong>
+                        </td>
+
+                        <td>@item.Category</td>
+
+                        <td>
+                            @item.Price.ToString("N0") đ
+                        </td>
+
+                        <td>
+                            <img src="@Url.Content(item.ImageUrl)"
+                                 alt="@item.Name"
+                                 class="product-thumb" />
+                        </td>
+
+                        <td>@item.Description</td>
+
+                        <td>@item.Size</td>
+
+                        <td>@item.Ingredients</td>
+
+                        <td>@item.PreparationTime</td>
+
+                        <td>@item.Note</td>
+
+                        <td class="admin-actions">
+
+                            @Html.ActionLink(
+                                     "Sửa",
+                                     "Edit",
+                                     new { id = item.Id },
+                                     new { @class = "action-edit" }
+                                 )
+
+                            @Html.ActionLink(
+                                     "Chi tiết",
+                                     "Details",
+                                     new { id = item.Id },
+                                     new { @class = "action-details" }
+                                 )
+
+                            @Html.ActionLink(
+                                     "Xóa",
+                                     "Delete",
+                                     new { id = item.Id },
+                                     new { @class = "action-delete" }
+                                 )
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

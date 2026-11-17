@@ -1,0 +1,152 @@
+﻿@using CafeManagement.Models
+@{
+    ViewBag.Title = "Quản lý nhận nuôi";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+    var submissions = (System.Collections.Generic.List<CatSubmission>)ViewBag.Submissions;
+    var requests = (System.Collections.Generic.List<AdoptionRequest>)ViewBag.Requests;
+    var catNames = (System.Collections.Generic.Dictionary<int, string>)ViewBag.CatNames;
+}
+
+<div class="manage-wrap">
+
+    <h2>Mèo được gửi cho shop</h2>
+
+    <div class="mg-table-wrap">
+        @if (submissions.Count == 0)
+        {
+            <div class="mg-empty">Chưa có bé mèo nào được gửi.</div>
+        }
+        else
+        {
+            <table class="mg-table">
+                <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>Bé mèo</th>
+                        <th>Người gửi</th>
+                        <th>Mô tả</th>
+                        <th>Ngày gửi</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in submissions)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(s.ImageUrl))
+                                {
+                                    <img class="mg-thumb" src="@Url.Content(s.ImageUrl)" alt="@s.CatName" />
+                                }
+                                else
+                                {
+                                    <span style="font-size:36px" aria-hidden="true">&#128049;</span>
+                                }
+                            </td>
+                            <td>
+                                <strong>@s.CatName</strong><br />
+                                @(s.Gender + " · " + s.AgeText)<br />
+                                @s.Breed
+                                @if (s.IsVaccinated)
+                                {
+                                    <br /><em>Đã tiêm phòng</em>
+                                }
+                            </td>
+                            <td>
+                                @s.OwnerName<br />
+                                @s.Phone<br />
+                                @s.Email
+                            </td>
+                            <td style="max-width:280px">
+                                @s.Description
+                                @if (!string.IsNullOrEmpty(s.Reason))
+                                {
+                                    <br /><em>Lý do: @s.Reason</em>
+                                }
+                            </td>
+                            <td>@s.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td><span class="mg-status st-@s.Status">@s.Status</span></td>
+                            <td>
+                                @if (s.Status == "Pending")
+                                {
+                                    <div class="mg-actions">
+                                        @using (Html.BeginForm("ApproveSubmission", "Adoption", new { id = s.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="mg-btn mg-ok">Duyệt</button>
+                                        }
+                                        @using (Html.BeginForm("RejectSubmission", "Adoption", new { id = s.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="mg-btn mg-no">Từ chối</button>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <h2>Đơn xin nhận nuôi</h2>
+
+    <div class="mg-table-wrap">
+        @if (requests.Count == 0)
+        {
+            <div class="mg-empty">Chưa có đơn xin nhận nuôi nào.</div>
+        }
+        else
+        {
+            <table class="mg-table">
+                <thead>
+                    <tr>
+                        <th>Bé mèo</th>
+                        <th>Người xin nhận nuôi</th>
+                        <th>Địa chỉ</th>
+                        <th>Lời nhắn</th>
+                        <th>Ngày gửi</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in requests)
+                    {
+                        <tr>
+                            <td><strong>@(catNames.ContainsKey(r.CatId) ? catNames[r.CatId] : "(đã xóa)")</strong></td>
+                            <td>
+                                @r.FullName<br />
+                                @r.Phone<br />
+                                @r.Email
+                            </td>
+                            <td>@r.Address</td>
+                            <td style="max-width:260px">@r.Note</td>
+                            <td>@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td><span class="mg-status st-@r.Status">@r.Status</span></td>
+                            <td>
+                                @if (r.Status == "Pending")
+                                {
+                                    <div class="mg-actions">
+                                        @using (Html.BeginForm("ConfirmAdoption", "Adoption", new { id = r.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="mg-btn mg-ok">Xác nhận</button>
+                                        }
+                                        @using (Html.BeginForm("RejectAdoption", "Adoption", new { id = r.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="mg-btn mg-no">Từ chối</button>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

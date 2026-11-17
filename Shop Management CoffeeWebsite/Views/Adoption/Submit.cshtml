@@ -1,0 +1,152 @@
+﻿@model CafeManagement.Models.SubmitCatViewModel
+
+@{
+    ViewBag.Title = "Gửi mèo cho shop";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<div class="auth-page">
+    <div class="auth-card xl">
+
+        <h2 class="auth-title">Gửi mèo cho Mimi</h2>
+        <p class="auth-sub">Cung cấp thông tin về bé để Mimi liên hệ và giúp bé tìm nhà mới</p>
+
+        @using (Html.BeginForm("Submit", "Adoption", FormMethod.Post, new { enctype = "multipart/form-data", novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h4 style="margin:0 0 12px;color:#4f5b39;">Thông tin của bạn</h4>
+
+            <div class="field">
+                @Html.LabelFor(m => m.OwnerName)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">person</span>
+                    @Html.TextBoxFor(m => m.OwnerName, new { placeholder = "Nguyễn Văn A" })
+                </div>
+                @Html.ValidationMessageFor(m => m.OwnerName)
+            </div>
+
+            <div class="row-2">
+                <div class="field">
+                    @Html.LabelFor(m => m.Phone)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">call</span>
+                        @Html.TextBoxFor(m => m.Phone, new { placeholder = "09xxxxxxxx", type = "tel" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(m => m.Email)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">mail</span>
+                        @Html.TextBoxFor(m => m.Email, new { placeholder = "ban@example.com", type = "email" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+
+            <h4 style="margin:22px 0 12px;color:#4f5b39;">Thông tin bé mèo</h4>
+
+            <div class="row-2">
+                <div class="field">
+                    @Html.LabelFor(m => m.CatName)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">pets</span>
+                        @Html.TextBoxFor(m => m.CatName, new { placeholder = "Ví dụ: Mướp" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CatName)
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(m => m.AgeText)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">cake</span>
+                        @Html.TextBoxFor(m => m.AgeText, new { placeholder = "Ví dụ: 3 tháng, 2 tuổi" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.AgeText)
+                </div>
+            </div>
+
+            <div class="row-2">
+                <div class="field">
+                    @Html.LabelFor(m => m.Gender)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">wc</span>
+                        @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Đực", "Cái" }), "-- Chọn giới tính --")
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Gender)
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(m => m.Breed)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">category</span>
+                        @Html.TextBoxFor(m => m.Breed, new { placeholder = "Mèo ta, Anh lông ngắn..." })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Breed)
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="check-line">
+                    @Html.CheckBoxFor(m => m.IsVaccinated)
+                    Bé đã được tiêm phòng
+                </label>
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Description)
+                <div class="input-wrap top-icon">
+                    <span class="material-symbols-outlined">description</span>
+                    @Html.TextAreaFor(m => m.Description, new { placeholder = "Tính cách, sức khỏe, thói quen ăn uống..." })
+                </div>
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Reason)
+                <div class="input-wrap top-icon">
+                    <span class="material-symbols-outlined">help</span>
+                    @Html.TextAreaFor(m => m.Reason, new { placeholder = "Vì sao bạn muốn gửi bé cho Mimi? (không bắt buộc)" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Reason)
+            </div>
+
+            <div class="field">
+                <label>Ảnh của bé (JPG, PNG, WEBP - tối đa 3MB)</label>
+                <label class="drop-zone" for="photo">
+                    <span class="material-symbols-outlined">add_photo_alternate</span>
+                    <span id="photoText">Bấm để chọn ảnh bé mèo</span>
+                    <img id="photoPreview" alt="Xem trước ảnh" />
+                    <input type="file" id="photo" name="photo" accept="image/png,image/jpeg,image/webp" />
+                </label>
+                @Html.ValidationMessage("photo")
+            </div>
+
+            <button type="submit" class="btn-submit btn-submit-register">Gửi thông tin cho Mimi</button>
+        }
+
+        <a class="back-home" href="@Url.Action("Index", "Adoption")">&larr; Quay lại trang nhận nuôi</a>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var input = document.getElementById("photo");
+        var preview = document.getElementById("photoPreview");
+        var text = document.getElementById("photoText");
+
+        input.addEventListener("change", function () {
+            var file = input.files && input.files[0];
+            if (!file) { preview.style.display = "none"; text.textContent = "Bấm để chọn ảnh bé mèo"; return; }
+            text.textContent = file.name;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+}

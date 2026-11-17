@@ -1,0 +1,220 @@
+﻿
+@model CafeManagement.Models.Product
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<style>
+    .detail-page {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+        color: #f5f1e8;
+    }
+
+    .detail-back {
+        display: inline-block;
+        margin-bottom: 24px;
+        color: #b4c795;
+        text-decoration: none;
+    }
+
+    .detail-layout {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 36px;
+        align-items: start;
+    }
+
+    .detail-photo {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 1px solid #38382f;
+    }
+
+    .detail-panel {
+        padding: 28px;
+        background: #191916;
+        border: 1px solid #35352e;
+        border-radius: 18px;
+    }
+
+    .detail-tag {
+        color: #b4c795;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .detail-panel h1 {
+        margin: 12px 0;
+        font-size: 32px;
+    }
+
+    .detail-desc {
+        color: #b7b5ab;
+        line-height: 1.8;
+    }
+
+    .detail-price {
+        margin: 22px 0;
+        color: #b4c795;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .detail-divider {
+        border: 0;
+        border-top: 1px solid #393930;
+        margin: 22px 0;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 16px 0;
+        line-height: 1.6;
+    }
+
+    .detail-label {
+        color: #a6a49a;
+        flex-shrink: 0;
+    }
+
+    .detail-value {
+        text-align: right;
+    }
+
+    .detail-note {
+        padding: 14px;
+        border-radius: 10px;
+        background: #25271e;
+        color: #d2d9c3;
+        line-height: 1.7;
+    }
+
+    .detail-back-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 22px;
+        background: #87996a;
+        color: white;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .detail-back-button:hover {
+            background: #718254;
+            color: white;
+            text-decoration: none;
+        }
+
+    @@media (max-width: 750px) {
+        .detail-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .detail-photo {
+            height: 300px;
+        }
+
+        .detail-panel h1 {
+            font-size: 26px;
+        }
+    }
+</style>
+
+<div class="detail-page">
+    <a class="detail-back"
+       href="@Url.Action("Index", "SanPham")">
+        &larr; Quay lại menu
+    </a>
+
+    <div class="detail-layout">
+        <div>
+            <img class="detail-photo"
+                 src="@Url.Content(Model.ImageUrl)"
+                 alt="@Model.Name" />
+        </div>
+
+        <div class="detail-panel">
+            <div class="detail-tag">@Model.Category</div>
+
+            <h1>@Model.Name</h1>
+
+            <p class="detail-desc">
+                @Model.Description
+            </p>
+
+            <div class="detail-price">
+                @Model.Price.ToString("N0") đ
+            </div>
+
+            <hr class="detail-divider" />
+
+            <div class="detail-row">
+                <span class="detail-label">Danh mục</span>
+                <span class="detail-value">@Model.Category</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Kích cỡ</span>
+                <span class="detail-value">
+                    @(String.IsNullOrWhiteSpace(Model.Size)
+                        ? "Đang cập nhật"
+                        : Model.Size)
+                </span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Thời gian pha chế</span>
+                <span class="detail-value">
+                    @(String.IsNullOrWhiteSpace(Model.PreparationTime)
+                        ? "Đang cập nhật"
+                        : Model.PreparationTime)
+                </span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Thành phần</span>
+                <span class="detail-value">
+                    @(String.IsNullOrWhiteSpace(Model.Ingredients)
+                        ? "Đang cập nhật"
+                        : Model.Ingredients)
+                </span>
+            </div>
+
+            <hr class="detail-divider" />
+
+            <h3>Thông tin món uống</h3>
+
+            <div class="detail-note">
+                @(String.IsNullOrWhiteSpace(Model.Note)
+                    ? "Liên hệ nhân viên để biết thêm thông tin về món uống."
+                    : Model.Note)
+            </div>
+
+            @using (Html.BeginForm("Add", "Order", FormMethod.Post, new { @class = "detail-order-form" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="hidden" name="returnUrl" value="@Request.RawUrl" />
+                <label for="quantity">Số lượng</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="20" />
+                <button type="submit" class="detail-order-btn">Đặt món</button>
+            }
+
+            <a class="detail-back-button"
+               href="@Url.Action("Index", "SanPham")">
+                Tiếp tục xem menu
+            </a>
+        </div>
+    </div>
+</div>

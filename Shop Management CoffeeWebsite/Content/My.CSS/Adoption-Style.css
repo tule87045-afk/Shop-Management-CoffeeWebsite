@@ -1,0 +1,551 @@
+﻿/* =========================================
+   MIMI CAT CAFE - THANH ĐIỀU HƯỚNG + NHẬN NUÔI MÈO
+========================================= */
+:root {
+    --ad-olive: #68764c;
+    --ad-olive-dark: #4f5b39;
+    --ad-brown: #38291f;
+    --ad-muted: #81766c;
+    --ad-border: #e4dccd;
+    --ad-cream: #faf7f0;
+    --ad-red: #d62839;
+    --ad-orange: #e8923a;
+}
+
+/* ---------- Thanh điều hướng ---------- */
+#site-nav {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    background: #fffdf8;
+    border-bottom: 1px solid var(--ad-border);
+}
+
+    #site-nav a {
+        padding: 9px 22px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ad-brown);
+        text-decoration: none;
+        transition: background .2s, color .2s;
+    }
+
+        #site-nav a:hover {
+            background: #eef3e4;
+            color: var(--ad-olive-dark);
+        }
+
+        #site-nav a.active {
+            background: var(--ad-olive);
+            color: #fff;
+        }
+
+/* ---------- Hero ---------- */
+.adopt-hero {
+    text-align: center;
+    padding: 56px 20px 46px;
+    background: radial-gradient(circle at 20% 10%, #f6e9cf 0, transparent 45%), radial-gradient(circle at 85% 90%, #e6efd2 0, transparent 45%), var(--ad-cream);
+}
+
+.adopt-label {
+    color: var(--ad-olive);
+    letter-spacing: 3px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.adopt-hero h1 {
+    font-family: "Roboto Slab", serif;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--ad-brown);
+    margin: 10px 0 12px;
+}
+
+.adopt-hero p {
+    max-width: 640px;
+    margin: 0 auto 22px;
+    color: var(--ad-muted);
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none !important;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, background .2s;
+}
+
+    .btn-pill:hover {
+        transform: translateY(-2px);
+    }
+
+.btn-pill-olive {
+    background: linear-gradient(135deg, #7d8d5c, var(--ad-olive-dark));
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(79, 91, 57, .28);
+}
+
+.btn-pill-outline {
+    background: #fff;
+    color: var(--ad-olive-dark) !important;
+    border-color: var(--ad-olive);
+}
+
+    .btn-pill-outline:hover {
+        background: var(--ad-olive);
+        color: #fff !important;
+    }
+
+/* ---------- Danh sách mèo ---------- */
+.adopt-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 20px 56px;
+}
+
+.adopt-section-title {
+    text-align: center;
+    font-family: "Roboto Slab", serif;
+    color: var(--ad-brown);
+    font-size: 28px;
+    margin: 0 0 6px;
+}
+
+.adopt-section-sub {
+    text-align: center;
+    color: var(--ad-muted);
+    margin: 0 0 26px;
+}
+
+.cat-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+}
+
+.cat-filter {
+    border: 1px solid var(--ad-olive);
+    background: #fff;
+    color: var(--ad-olive-dark);
+    padding: 9px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .2s;
+}
+
+    .cat-filter:hover,
+    .cat-filter.active {
+        background: var(--ad-olive-dark);
+        color: #fff;
+    }
+
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.cat-card {
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(56, 41, 31, .08);
+    transition: transform .25s, box-shadow .25s;
+    display: flex;
+    flex-direction: column;
+}
+
+    .cat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 34px rgba(56, 41, 31, .16);
+    }
+
+.cat-photo {
+    position: relative;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 86px;
+    overflow: hidden;
+}
+
+    .cat-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .35s;
+    }
+
+.cat-card:hover .cat-photo img {
+    transform: scale(1.05);
+}
+
+.ph-0 { background: linear-gradient(135deg, #fde7c8, #f8c98a); }
+.ph-1 { background: linear-gradient(135deg, #dfe9d2, #b9cf9b); }
+.ph-2 { background: linear-gradient(135deg, #e4dcf3, #c8b9ea); }
+.ph-3 { background: linear-gradient(135deg, #fbd9d9, #f1aeb0); }
+.ph-4 { background: linear-gradient(135deg, #d8ebf4, #a9d2e6); }
+.ph-5 { background: linear-gradient(135deg, #f6efc9, #e6d98f); }
+
+.cat-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .92);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ad-olive-dark);
+}
+
+.cat-body {
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cat-name {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ad-brown);
+    font-family: "Roboto Slab", serif;
+}
+
+.cat-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.cat-tag {
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: #f3eee2;
+    color: var(--ad-brown);
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+    .cat-tag.vac {
+        background: #e6efd2;
+        color: var(--ad-olive-dark);
+    }
+
+.cat-desc {
+    color: var(--ad-muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 0 0 16px;
+    flex: 1;
+}
+
+.cat-adopt-btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff !important;
+    text-decoration: none !important;
+    background: linear-gradient(135deg, #f0a24f, var(--ad-orange));
+    box-shadow: 0 6px 16px rgba(232, 146, 58, .35);
+    transition: transform .2s, box-shadow .2s;
+}
+
+    .cat-adopt-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(232, 146, 58, .45);
+    }
+
+.cat-empty {
+    display: none;
+    text-align: center;
+    color: var(--ad-muted);
+    padding: 30px;
+}
+
+/* ---------- Khối kêu gọi gửi mèo ---------- */
+.give-cta {
+    margin-top: 48px;
+    padding: 34px 28px;
+    border-radius: 24px;
+    text-align: center;
+    background: linear-gradient(135deg, #f3ecda, #e9efd9);
+    border: 1px solid var(--ad-border);
+}
+
+    .give-cta h3 {
+        font-family: "Roboto Slab", serif;
+        color: var(--ad-brown);
+        margin: 0 0 8px;
+        font-size: 24px;
+    }
+
+    .give-cta p {
+        color: var(--ad-muted);
+        margin: 0 auto 18px;
+        max-width: 560px;
+        line-height: 1.7;
+    }
+
+/* ---------- Form (nhận nuôi / gửi mèo) ---------- */
+.auth-card.xl {
+    max-width: 760px;
+}
+
+.mini-cat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #f7f3e8;
+    border: 1px solid var(--ad-border);
+    margin-bottom: 20px;
+}
+
+.mini-cat-photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    flex-shrink: 0;
+}
+
+    .mini-cat-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.mini-cat strong {
+    color: var(--ad-brown);
+    font-size: 17px;
+}
+
+.mini-cat span.meta {
+    display: block;
+    color: var(--ad-muted);
+    font-size: 13px;
+}
+
+.input-wrap select,
+.input-wrap textarea {
+    width: 100%;
+    padding: 13px 16px 13px 44px;
+    border: 1.5px solid var(--ad-border);
+    border-radius: 12px;
+    background: #fffdf9;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ad-brown);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.input-wrap textarea {
+    min-height: 110px;
+    resize: vertical;
+    padding-top: 13px;
+}
+
+    .input-wrap select:focus,
+    .input-wrap textarea:focus {
+        border-color: var(--ad-olive);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(104, 118, 76, .15);
+    }
+
+.input-wrap.top-icon .material-symbols-outlined {
+    top: 22px;
+}
+
+.check-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--ad-border);
+    border-radius: 12px;
+    background: #fffdf9;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ad-brown);
+}
+
+    .check-line input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--ad-olive);
+    }
+
+.drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 22px;
+    border: 2px dashed #c9bda5;
+    border-radius: 14px;
+    background: #fffdf9;
+    text-align: center;
+    cursor: pointer;
+    color: var(--ad-muted);
+    transition: border-color .2s, background .2s;
+}
+
+    .drop-zone:hover {
+        border-color: var(--ad-olive);
+        background: #f6f9ef;
+    }
+
+    .drop-zone .material-symbols-outlined {
+        font-size: 36px;
+        color: var(--ad-olive);
+    }
+
+    .drop-zone img {
+        max-height: 180px;
+        max-width: 100%;
+        border-radius: 12px;
+        display: none;
+    }
+
+    .drop-zone input[type=file] {
+        display: none;
+    }
+
+.btn-submit-adopt {
+    background: linear-gradient(135deg, #f0a24f, var(--ad-orange));
+    box-shadow: 0 8px 20px rgba(232, 146, 58, .35);
+}
+
+    .btn-submit-adopt:hover {
+        box-shadow: 0 12px 26px rgba(232, 146, 58, .45);
+    }
+
+/* ---------- Trang quản lý ---------- */
+.manage-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+}
+
+    .manage-wrap h2 {
+        font-family: "Roboto Slab", serif;
+        color: var(--ad-brown);
+        margin: 28px 0 14px;
+    }
+
+.mg-table-wrap {
+    overflow-x: auto;
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+}
+
+.mg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    .mg-table th {
+        text-align: left;
+        padding: 12px 14px;
+        background: #f6f1e4;
+        color: var(--ad-brown);
+        white-space: nowrap;
+    }
+
+    .mg-table td {
+        padding: 12px 14px;
+        border-top: 1px solid #efe8d8;
+        vertical-align: top;
+        color: var(--ad-brown);
+    }
+
+.mg-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+}
+
+.mg-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.st-Pending { background: #fff1d6; color: #9a6400; }
+.st-Approved, .st-Confirmed { background: #e3efd2; color: #3f5a1c; }
+.st-Rejected { background: #fbe0e2; color: #a3202d; }
+
+.mg-actions {
+    display: flex;
+    gap: 6px;
+}
+
+    .mg-actions form {
+        margin: 0;
+    }
+
+.mg-btn {
+    border: 0;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.mg-ok { background: var(--ad-olive); }
+.mg-no { background: var(--ad-red); }
+.mg-empty { padding: 24px; text-align: center; color: var(--ad-muted); }
+
+@media (max-width: 900px) {
+    .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .cat-photo { height: 190px; }
+}
+
+@media (max-width: 560px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .adopt-hero { padding: 40px 16px 34px; }
+}

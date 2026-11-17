@@ -1,0 +1,107 @@
+﻿@model CafeManagement.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<div class="auth-page">
+    <div class="auth-card wide">
+
+        <img class="auth-logo"
+             src="@Url.Content("~/image/cat-cafe-curling-cat-cute-badge.png")"
+             alt="Mimi Cat Cafe" />
+
+        <h2 class="auth-title">Tạo tài khoản</h2>
+        <p class="auth-sub">Tham gia Mimi Cat Cafe để đặt món và nhận ưu đãi</p>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+
+            if (ViewData.ModelState.Keys.Contains("") && ViewData.ModelState[""].Errors.Count > 0)
+            {
+                <div class="auth-error-box">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+
+            <div class="field">
+                @Html.LabelFor(m => m.FullName)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">person</span>
+                    @Html.TextBoxFor(m => m.FullName, new { placeholder = "Nguyễn Văn A", autocomplete = "name" })
+                </div>
+                @Html.ValidationMessageFor(m => m.FullName)
+            </div>
+
+            <div class="row-2">
+                <div class="field">
+                    @Html.LabelFor(m => m.Email)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">mail</span>
+                        @Html.TextBoxFor(m => m.Email, new { placeholder = "ban@example.com", autocomplete = "email", type = "email" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(m => m.Phone)
+                    <div class="input-wrap">
+                        <span class="material-symbols-outlined">call</span>
+                        @Html.TextBoxFor(m => m.Phone, new { placeholder = "09xxxxxxxx", autocomplete = "tel", type = "tel" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Password)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">lock</span>
+                    @Html.PasswordFor(m => m.Password, new { placeholder = "Ít nhất 6 ký tự", autocomplete = "new-password" })
+                    <button type="button" class="toggle-pass" aria-label="Hiện/ẩn mật khẩu">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.ConfirmPassword)
+                <div class="input-wrap">
+                    <span class="material-symbols-outlined">lock_reset</span>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Nhập lại mật khẩu", autocomplete = "new-password" })
+                    <button type="button" class="toggle-pass" aria-label="Hiện/ẩn mật khẩu">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                </div>
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+
+            <button type="submit" class="btn-submit btn-submit-register">Đăng ký</button>
+        }
+
+        <div class="auth-divider">đã có tài khoản?</div>
+
+        <div class="auth-switch">
+            <a class="link-switch" href="@Url.Action("Login", "Account")">Đăng nhập tại đây</a>
+        </div>
+
+        <a class="back-home" href="@Url.Action("Index", "SanPham")">&larr; Quay lại menu</a>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.querySelectorAll(".toggle-pass").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var input = btn.parentElement.querySelector("input");
+                var icon = btn.querySelector(".material-symbols-outlined");
+                var show = input.type === "password";
+                input.type = show ? "text" : "password";
+                icon.textContent = show ? "visibility_off" : "visibility";
+            });
+        });
+    </script>
+}

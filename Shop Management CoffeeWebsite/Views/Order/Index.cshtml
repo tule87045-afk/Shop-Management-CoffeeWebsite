@@ -1,0 +1,119 @@
+﻿@model CafeManagement.Models.Order
+@{
+    ViewBag.Title = "Hóa đơn của tôi";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+    var methods = (string[])ViewBag.PaymentMethods;
+    bool hasItems = Model != null && Model.Items != null && Model.Items.Count > 0;
+}
+
+<div class="order-wrap">
+    <div class="order-head">
+        <h2>Hóa đơn của tôi</h2>
+        <div class="order-head-links">
+            <a class="btn-pill btn-pill-outline" href="@Url.Action("Index", "SanPham")">+ Đặt thêm món</a>
+            <a class="btn-pill btn-pill-outline" href="@Url.Action("History", "Order")">Lịch sử hóa đơn</a>
+        </div>
+    </div>
+
+    @if (!hasItems)
+    {
+        <div class="order-empty">
+            <div class="order-empty-icon" aria-hidden="true">&#9749;</div>
+            <p>Hóa đơn đang trống. Hãy chọn món yêu thích từ menu nhé!</p>
+            <a class="btn-pill btn-pill-olive" href="@Url.Action("Index", "SanPham")">Xem menu</a>
+        </div>
+    }
+    else
+    {
+        <div class="mg-table-wrap">
+            <table class="mg-table order-table">
+                <thead>
+                    <tr>
+                        <th>Món</th>
+                        <th class="num">Đơn giá</th>
+                        <th class="center">Số lượng</th>
+                        <th class="num">Thành tiền</th>
+                        <th class="center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items.OrderBy(i => i.Id))
+                    {
+                        <tr>
+                            <td><strong>@item.ProductName</strong></td>
+                            <td class="num">@item.UnitPrice.ToString("N0") đ</td>
+                            <td class="center">
+                                <div class="qty-box">
+                                    @using (Html.BeginForm("Decrease", "Order", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="itemId" value="@item.Id" />
+                                        <button type="submit" class="qty-btn" title="Giảm 1">&minus;</button>
+                                    }
+                                    <span class="qty-num">@item.Quantity</span>
+                                    @using (Html.BeginForm("Add", "Order", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Order")" />
+                                        <button type="submit" class="qty-btn" title="Thêm 1">+</button>
+                                    }
+                                </div>
+                            </td>
+                            <td class="num"><strong>@item.LineTotal.ToString("N0") đ</strong></td>
+                            <td class="center">
+                                @using (Html.BeginForm("Cancel", "Order", FormMethod.Post, new { @class = "js-confirm", data_confirm = "Hủy món " + item.ProductName + " khỏi hóa đơn?" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <button type="submit" class="mg-btn mg-no">Hủy món</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="order-total-row">
+                        <td colspan="3" class="num">Tổng cộng (@Model.ItemCount món)</td>
+                        <td class="num order-total">@Model.Total.ToString("N0") đ</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="pay-box">
+            @using (Html.BeginForm("Pay", "Order", FormMethod.Post, new { @class = "pay-form js-confirm", data_confirm = "Xác nhận thanh toán " + Model.Total.ToString("N0") + " đ?" }))
+            {
+                @Html.AntiForgeryToken()
+                <label for="paymentMethod">Phương thức thanh toán</label>
+                <select id="paymentMethod" name="paymentMethod">
+                    @foreach (var m in methods)
+                    {
+                        <option value="@m">@m</option>
+                    }
+                </select>
+                <button type="submit" class="btn-pill btn-pill-olive">Thanh toán hóa đơn</button>
+            }
+
+            @using (Html.BeginForm("CancelAll", "Order", FormMethod.Post, new { @class = "js-confirm", data_confirm = "Hủy toàn bộ hóa đơn này?" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-pill btn-pill-danger">Hủy toàn bộ đơn</button>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var forms = document.querySelectorAll("form.js-confirm");
+        for (var i = 0; i < forms.length; i++) {
+            forms[i].addEventListener("submit", function (e) {
+                var f = /** @@type {HTMLFormElement} */ (e.currentTarget);
+                var text = f.getAttribute("data-confirm") || "Bạn chắc chắn chứ?";
+                if (!window.confirm(text)) e.preventDefault();
+            });
+        }
+    });
+</script>

@@ -1,0 +1,304 @@
+﻿/* =========================================
+   MIMI CAT CAFE - THỐNG KÊ DOANH THU
+   Dùng chung biến màu --ad-* của Adoption-Style.css
+========================================= */
+.rev-wrap {
+    max-width: 1080px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    color: var(--ad-brown);
+}
+
+/* ---------- Tổng quan nhanh ---------- */
+.rev-quick {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.rev-quick-card {
+    display: block;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+    text-decoration: none !important;
+    color: var(--ad-brown) !important;
+    transition: transform .2s, box-shadow .2s;
+}
+
+    .rev-quick-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 91, 57, .15);
+    }
+
+.rev-quick-label {
+    display: block;
+    font-size: 13px;
+    color: var(--ad-muted);
+    margin-bottom: 4px;
+}
+
+.rev-quick-card strong {
+    font-size: 20px;
+    font-family: "Roboto Slab", serif;
+    color: var(--ad-olive-dark);
+}
+
+/* ---------- Thanh chọn kỳ ---------- */
+.rev-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.rev-tabs {
+    display: inline-flex;
+    gap: 6px;
+    padding: 5px;
+    background: #fffdf8;
+    border: 1px solid var(--ad-border);
+    border-radius: 999px;
+}
+
+.rev-tab {
+    padding: 8px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none !important;
+    color: var(--ad-brown) !important;
+}
+
+    .rev-tab:hover {
+        background: #f1ecdc;
+    }
+
+    .rev-tab.active {
+        background: var(--ad-olive);
+        color: #fff !important;
+    }
+
+.rev-date-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+}
+
+    .rev-date-form input[type=date] {
+        padding: 7px 10px;
+        border: 1px solid var(--ad-border);
+        border-radius: 10px;
+        font-family: inherit;
+        color: var(--ad-brown);
+        background: #fff;
+    }
+
+/* ---------- Tiêu đề kỳ ---------- */
+.rev-range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+    .rev-range h3 {
+        margin: 0;
+        font-family: "Roboto Slab", serif;
+        text-align: center;
+    }
+
+.rev-nav {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--ad-olive);
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none !important;
+    color: var(--ad-olive-dark) !important;
+    background: #fff;
+    white-space: nowrap;
+}
+
+    .rev-nav:hover {
+        background: var(--ad-olive);
+        color: #fff !important;
+    }
+
+.rev-nav-off {
+    opacity: .4;
+    pointer-events: none;
+}
+
+/* ---------- Thẻ số liệu ---------- */
+.rev-stats {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.rev-stat {
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+}
+
+    .rev-stat span {
+        display: block;
+        font-size: 13px;
+        color: var(--ad-muted);
+        margin-bottom: 4px;
+    }
+
+    .rev-stat strong {
+        font-size: 22px;
+        font-family: "Roboto Slab", serif;
+    }
+
+.rev-stat-main {
+    background: linear-gradient(135deg, #7d8d5c, var(--ad-olive-dark));
+    border-color: transparent;
+}
+
+    .rev-stat-main span,
+    .rev-stat-main strong {
+        color: #fff;
+    }
+
+/* ---------- Khối nội dung ---------- */
+.rev-card {
+    background: #fffdf8;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+    .rev-card h3 {
+        margin: 0 0 12px;
+        font-family: "Roboto Slab", serif;
+        font-size: 18px;
+    }
+
+.rev-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rev-best {
+    font-size: 13px;
+    color: var(--ad-olive-dark);
+    font-weight: 700;
+}
+
+.rev-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+    .rev-two .rev-card {
+        margin-bottom: 18px;
+    }
+
+.rev-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ad-muted);
+}
+
+/* ---------- Biểu đồ cột (CSS thuần) ---------- */
+.rev-chart {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    height: 280px;
+    padding: 10px 4px 0;
+    overflow-x: auto;
+}
+
+.rev-chart-compact {
+    gap: 3px;
+}
+
+.rev-col {
+    flex: 1 1 0;
+    min-width: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rev-chart-compact .rev-col {
+    min-width: 14px;
+}
+
+.rev-col-value {
+    height: 18px;
+    font-size: 11px;
+    color: var(--ad-muted);
+    white-space: nowrap;
+}
+
+.rev-col-bar-wrap {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-bottom: 2px solid var(--ad-border);
+}
+
+.rev-col-bar {
+    width: 70%;
+    max-width: 48px;
+    min-height: 0;
+    background: linear-gradient(180deg, #8fa069, var(--ad-olive-dark));
+    border-radius: 8px 8px 0 0;
+    transition: opacity .2s;
+}
+
+.rev-col:hover .rev-col-bar {
+    opacity: .75;
+}
+
+.rev-col-empty {
+    background: transparent;
+}
+
+.rev-col-label {
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rev-chart-compact .rev-col-label {
+    font-size: 10px;
+}
+
+.rev-col-sub {
+    font-size: 11px;
+    color: var(--ad-muted);
+}
+
+.mg-table .center { text-align: center; }
+.mg-table .num { text-align: right; white-space: nowrap; }
+
+@media (max-width: 900px) {
+    .rev-quick { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .rev-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .rev-two { grid-template-columns: 1fr; }
+    .rev-range h3 { font-size: 16px; }
+}

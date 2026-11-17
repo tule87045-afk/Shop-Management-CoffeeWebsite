@@ -1,0 +1,405 @@
+﻿/* =========================================
+   MIMI CAT CAFE - ĐẶT MÓN / HỦY MÓN / THANH TOÁN
+   Dùng chung biến màu --ad-* của Adoption-Style.css
+========================================= */
+
+/* ---------- Số món trên thanh điều hướng ---------- */
+.cart-badge {
+    display: inline-block;
+    min-width: 20px;
+    margin-left: 6px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--ad-red);
+    color: #fff;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+}
+
+    .cart-badge:empty {
+        display: none;
+    }
+
+/* ---------- Nút Đặt món trên thẻ sản phẩm ---------- */
+.order-form {
+    margin: 12px 0 0;
+}
+
+.product-order-btn {
+    display: block;
+    width: 100%;
+    padding: 11px 15px;
+    border: 0;
+    border-radius: 9px;
+    background: #87996a;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+}
+
+    .product-order-btn:hover {
+        background: #718253;
+        transform: translateY(-1px);
+    }
+
+    .product-order-btn:disabled {
+        opacity: .6;
+        cursor: wait;
+    }
+
+/* ---------- Thông báo nhỏ khi đặt món ---------- */
+.order-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    z-index: 9999;
+    max-width: 320px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: #46513a;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .3);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+}
+
+    .order-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .order-toast.error {
+        background: var(--ad-red);
+    }
+
+/* ---------- Trang hóa đơn ---------- */
+.order-wrap {
+    max-width: 960px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    color: var(--ad-brown);
+}
+
+.order-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+    .order-head h2 {
+        margin: 0;
+        font-family: "Roboto Slab", serif;
+    }
+
+.order-head-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+    .order-head-links .btn-pill {
+        padding: 9px 20px;
+        font-size: 14px;
+    }
+
+.order-empty {
+    text-align: center;
+    padding: 48px 20px;
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+    color: var(--ad-muted);
+}
+
+.order-empty-icon {
+    font-size: 54px;
+}
+
+.order-table .num {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.order-table .center {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.order-table td {
+    vertical-align: middle;
+}
+
+.order-table form {
+    margin: 0;
+}
+
+.qty-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .qty-box form {
+        display: inline;
+    }
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--ad-olive);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ad-olive-dark);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+    .qty-btn:hover {
+        background: var(--ad-olive);
+        color: #fff;
+    }
+
+.qty-num {
+    min-width: 22px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.order-total-row td {
+    padding: 16px 14px;
+    background: #f6f1e4;
+    font-weight: 700;
+}
+
+.order-total {
+    font-size: 20px;
+    color: var(--ad-olive-dark);
+}
+
+.pay-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid var(--ad-border);
+    border-radius: 16px;
+}
+
+    .pay-box form {
+        margin: 0;
+    }
+
+.pay-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+    .pay-form label {
+        font-weight: 700;
+    }
+
+    .pay-form select {
+        padding: 11px 14px;
+        border: 1px solid var(--ad-border);
+        border-radius: 10px;
+        background: #fffdf8;
+        color: var(--ad-brown);
+        font-size: 14px;
+    }
+
+.btn-pill-danger {
+    background: #fff;
+    color: var(--ad-red) !important;
+    border-color: var(--ad-red);
+}
+
+    .btn-pill-danger:hover {
+        background: var(--ad-red);
+        color: #fff !important;
+    }
+
+/* ---------- Hóa đơn đã thanh toán ---------- */
+.receipt-wrap {
+    max-width: 620px;
+}
+
+.receipt {
+    padding: 28px;
+    background: #fff;
+    border: 1px dashed #b9ae98;
+    border-radius: 14px;
+}
+
+.receipt-top {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.receipt-brand {
+    font-family: "Roboto Slab", serif;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.receipt-sub {
+    margin-top: 4px;
+    letter-spacing: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ad-olive);
+}
+
+.receipt-meta {
+    display: grid;
+    gap: 6px;
+    padding: 14px 0;
+    border-top: 1px dashed #cfc5b0;
+    border-bottom: 1px dashed #cfc5b0;
+    font-size: 14px;
+}
+
+    .receipt-meta div {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .receipt-meta span {
+        color: var(--ad-muted);
+    }
+
+.receipt-table {
+    width: 100%;
+    margin-top: 14px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    .receipt-table th {
+        padding: 8px 4px;
+        text-align: left;
+        border-bottom: 1px solid #e4dccd;
+    }
+
+    .receipt-table td {
+        padding: 8px 4px;
+        border-bottom: 1px solid #f1ebdd;
+    }
+
+    .receipt-table .num {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .receipt-table .center {
+        text-align: center;
+    }
+
+    .receipt-table tfoot td {
+        padding-top: 14px;
+        border-bottom: 0;
+        font-weight: 700;
+    }
+
+.receipt-total {
+    font-size: 20px;
+    color: var(--ad-olive-dark);
+}
+
+.receipt-thanks {
+    margin-top: 18px;
+    text-align: center;
+    color: var(--ad-muted);
+    font-size: 13px;
+}
+
+.receipt-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+@media print {
+    #top-banner, #site-nav, .flash-welcome, .no-print {
+        display: none !important;
+    }
+
+    .receipt-wrap {
+        margin: 0 auto;
+    }
+
+    .receipt {
+        border: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .pay-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pay-form select, .pay-form .btn-pill, .pay-box > form > .btn-pill {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ---------- Form đặt món ở trang chi tiết ---------- */
+.detail-order-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 22px 0 0;
+}
+
+    .detail-order-form label {
+        color: #a6a49a;
+    }
+
+    .detail-order-form input[type=number] {
+        width: 80px;
+        padding: 10px 12px;
+        border: 1px solid #4a4a40;
+        border-radius: 9px;
+        background: #25251f;
+        color: #f5f1e8;
+        font-size: 15px;
+    }
+
+.detail-order-btn {
+    padding: 12px 26px;
+    border: 0;
+    border-radius: 9px;
+    background: #87996a;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+    .detail-order-btn:hover {
+        background: #718254;
+    }

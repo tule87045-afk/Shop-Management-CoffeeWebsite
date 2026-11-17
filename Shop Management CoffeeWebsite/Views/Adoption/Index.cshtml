@@ -1,0 +1,135 @@
+﻿@model IEnumerable<CafeManagement.Models.Cat>
+
+@{
+    ViewBag.Title = "Nhận nuôi mèo";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<div class="adopt-hero">
+    <div class="adopt-label">ADOPT A CAT</div>
+    <h1>Nhận nuôi một bé mèo, trao cho bé một mái nhà</h1>
+    <p>
+        Những bé mèo tại Mimi đều đang chờ một gia đình yêu thương. Bạn có thể đăng ký nhận nuôi,
+        hoặc gửi một bé mèo cần tìm nhà mới cho Mimi giúp đỡ.
+    </p>
+    <div class="hero-actions">
+        <a class="btn-pill btn-pill-olive" href="#cat-list">Xem các bé đang chờ nhà</a>
+        <a class="btn-pill btn-pill-outline" href="@Url.Action("Submit", "Adoption")">
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            Gửi mèo cho shop
+        </a>
+    </div>
+</div>
+
+<div class="adopt-wrap" id="cat-list">
+
+    <h2 class="adopt-section-title">Các bé đang chờ nhà</h2>
+    <p class="adopt-section-sub">Có @Model.Count() bé mèo đang tìm gia đình</p>
+
+    <div class="cat-filters">
+        <button type="button" class="cat-filter active" data-gender="all">Tất cả</button>
+        <button type="button" class="cat-filter" data-gender="Đực">Mèo đực</button>
+        <button type="button" class="cat-filter" data-gender="Cái">Mèo cái</button>
+    </div>
+
+    <div class="cat-grid">
+        @foreach (var cat in Model)
+        {
+            <div class="cat-card" data-gender="@cat.Gender">
+                <div class="cat-photo ph-@(cat.Id % 6)">
+                    @if (!string.IsNullOrEmpty(cat.ImageUrl))
+                    {
+                        <img src="@Url.Content(cat.ImageUrl)" alt="@cat.Name" />
+                    }
+                    else
+                    {
+                        <span aria-hidden="true">&#128049;</span>
+                    }
+                    <span class="cat-badge">@cat.Gender</span>
+                </div>
+
+                <div class="cat-body">
+                    <h3 class="cat-name">@cat.Name</h3>
+
+                    <div class="cat-tags">
+                        @if (!string.IsNullOrEmpty(cat.AgeText))
+                        {
+                            <span class="cat-tag">@cat.AgeText</span>
+                        }
+                        @if (!string.IsNullOrEmpty(cat.Breed))
+                        {
+                            <span class="cat-tag">@cat.Breed</span>
+                        }
+                        @if (!string.IsNullOrEmpty(cat.Color))
+                        {
+                            <span class="cat-tag">@cat.Color</span>
+                        }
+                        @if (cat.IsVaccinated)
+                        {
+                            <span class="cat-tag vac">Đã tiêm phòng</span>
+                        }
+                    </div>
+
+                    <p class="cat-desc">@cat.Description</p>
+
+                    <a class="cat-adopt-btn" href="@Url.Action("Adopt", "Adoption", new { id = cat.Id })">
+                        Nhận nuôi bé @cat.Name
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="cat-empty" id="catEmpty">
+        @if (!Model.Any())
+        {
+            <text>Hiện chưa có bé mèo nào đang chờ nhà. Bạn quay lại sau nhé!</text>
+        }
+        else
+        {
+            <text>Không có bé mèo nào phù hợp bộ lọc.</text>
+        }
+    </div>
+
+    <div class="give-cta">
+        <h3>Bạn có bé mèo cần tìm nhà mới?</h3>
+        <p>
+            Hãy gửi thông tin và ảnh của bé cho Mimi. Shop sẽ liên hệ, kiểm tra thông tin
+            và giúp bé tìm một gia đình phù hợp.
+        </p>
+        <a class="btn-pill btn-pill-olive" href="@Url.Action("Submit", "Adoption")">
+            <span class="material-symbols-outlined">pets</span>
+            Gửi mèo cho Mimi
+        </a>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        (function () {
+            var buttons = document.querySelectorAll(".cat-filter");
+            var cards = document.querySelectorAll(".cat-card");
+            var empty = document.getElementById("catEmpty");
+
+            function apply(gender) {
+                var visible = 0;
+                cards.forEach(function (c) {
+                    var show = gender === "all" || c.getAttribute("data-gender") === gender;
+                    c.style.display = show ? "" : "none";
+                    if (show) visible++;
+                });
+                empty.style.display = visible === 0 ? "block" : "none";
+            }
+
+            buttons.forEach(function (b) {
+                b.addEventListener("click", function () {
+                    buttons.forEach(function (x) { x.classList.remove("active"); });
+                    b.classList.add("active");
+                    apply(b.getAttribute("data-gender"));
+                });
+            });
+
+            apply("all");
+        })();
+    </script>
+}

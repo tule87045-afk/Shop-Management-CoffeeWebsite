@@ -1,0 +1,60 @@
+﻿@model System.Collections.Generic.List<CafeManagement.Models.Order>
+@{
+    ViewBag.Title = "Lịch sử hóa đơn";
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+    bool isAdmin = (Session["UserRole"] as string) == "Admin";
+}
+
+<div class="order-wrap">
+    <div class="order-head">
+        <h2>@(isAdmin ? "Tất cả hóa đơn đã thanh toán" : "Lịch sử hóa đơn")</h2>
+        <div class="order-head-links">
+            <a class="btn-pill btn-pill-outline" href="@Url.Action("Index", "Order")">Hóa đơn hiện tại</a>
+        </div>
+    </div>
+
+    <div class="mg-table-wrap">
+        @if (Model.Count == 0)
+        {
+            <div class="mg-empty">Chưa có hóa đơn nào được thanh toán.</div>
+        }
+        else
+        {
+            <table class="mg-table order-table">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        @if (isAdmin)
+                        {
+                            <th>Khách hàng</th>
+                        }
+                        <th>Ngày thanh toán</th>
+                        <th class="center">Số món</th>
+                        <th>Phương thức</th>
+                        <th class="num">Tổng tiền</th>
+                        <th class="center">Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        <tr>
+                            <td>#@o.Id.ToString("D5")</td>
+                            @if (isAdmin)
+                            {
+                                <td>@o.CustomerName</td>
+                            }
+                            <td>@(o.PaidAt.HasValue ? o.PaidAt.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                            <td class="center">@o.ItemCount</td>
+                            <td>@o.PaymentMethod</td>
+                            <td class="num"><strong>@o.Total.ToString("N0") đ</strong></td>
+                            <td class="center">
+                                <a class="mg-btn mg-ok" style="text-decoration:none" href="@Url.Action("Receipt", "Order", new { id = o.Id })">Xem</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

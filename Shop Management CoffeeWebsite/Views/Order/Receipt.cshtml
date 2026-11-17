@@ -1,0 +1,57 @@
+﻿@model CafeManagement.Models.Order
+@{
+    ViewBag.Title = "Hóa đơn #" + Model.Id;
+    Layout = "~/Views/Shared/_LayoutMaster1.cshtml";
+}
+
+<div class="order-wrap receipt-wrap">
+    <div class="receipt">
+        <div class="receipt-top">
+            <div class="receipt-brand">Mimi Cat Cafe</div>
+            <div class="receipt-sub">HÓA ĐƠN THANH TOÁN</div>
+        </div>
+
+        <div class="receipt-meta">
+            <div><span>Mã hóa đơn</span><strong>#@Model.Id.ToString("D5")</strong></div>
+            <div><span>Khách hàng</span><strong>@Model.CustomerName</strong></div>
+            <div><span>Ngày thanh toán</span><strong>@(Model.PaidAt.HasValue ? Model.PaidAt.Value.ToString("dd/MM/yyyy HH:mm") : "")</strong></div>
+            <div><span>Phương thức</span><strong>@Model.PaymentMethod</strong></div>
+        </div>
+
+        <table class="receipt-table">
+            <thead>
+                <tr>
+                    <th>Món</th>
+                    <th class="center">SL</th>
+                    <th class="num">Đơn giá</th>
+                    <th class="num">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items.OrderBy(i => i.Id))
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td class="center">@item.Quantity</td>
+                        <td class="num">@item.UnitPrice.ToString("N0")</td>
+                        <td class="num">@item.LineTotal.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="num">TỔNG CỘNG</td>
+                    <td class="num receipt-total">@Model.Total.ToString("N0") đ</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="receipt-thanks">Cảm ơn bạn đã ghé Mimi Cat Cafe. Hẹn gặp lại cùng các bé mèo!</div>
+    </div>
+
+    <div class="receipt-actions no-print">
+        <button type="button" class="btn-pill btn-pill-olive" onclick="window.print()">In hóa đơn</button>
+        <a class="btn-pill btn-pill-outline" href="@Url.Action("Index", "SanPham")">Tiếp tục đặt món</a>
+        <a class="btn-pill btn-pill-outline" href="@Url.Action("History", "Order")">Lịch sử hóa đơn</a>
+    </div>
+</div>

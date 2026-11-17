@@ -1,0 +1,155 @@
+﻿
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Phần chứa logo và tên quán */
+#left-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: auto;
+    height: auto;
+    flex-shrink: 0;
+    background-color: #f5f5f5;
+}
+
+    #left-top p {
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    /* Giới hạn kích thước ảnh logo */
+    #left-top img {
+        display: block;
+        width: 100px;
+        height: 100px;
+        max-width: 100px;
+        object-fit: contain;
+    }
+
+/* Phần trên cùng: logo bên trái, liên hệ bên phải */
+#top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: #f5f5f5;
+}
+
+#right-top {
+    flex-shrink: 0;
+}
+
+    #right-top p {
+        margin: 8px 0;
+    }
+
+.roboto-slab-ShuSmily {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+#left-top h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+/* Biểu tượng liên hệ */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+img {
+    vertical-align: middle;
+}
+
+/* Slideshow */
+.container {
+    position: relative;
+}
+
+.mySlides {
+    display: none;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+.caption-container {
+    text-align: center;
+    background-color: #222;
+    padding: 2px 16px;
+    color: white;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column {
+    float: left;
+    width: 16.66%;
+}
+
+.demo {
+    opacity: 0.6;
+}
+
+    .active,
+    .demo:hover {
+        opacity: 1;
+    }
+

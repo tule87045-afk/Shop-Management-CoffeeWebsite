@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Mimi Coffee Shop</title>
+
+    <link href="@Url.Content("~/Content/My.CSS/Master-Layout-Style.css")"
+          rel="stylesheet" />
+    <link href="@Url.Content("~/Content/AdminCSS/Admin-Style.css")"
+          rel="stylesheet" />
+    <link href="@Url.Content("~/Content/My.CSS/Account-Style.css")"
+          rel="stylesheet" />
+    <link href="@Url.Content("~/Content/My.CSS/Adoption-Style.css")"
+          rel="stylesheet" />
+    <link href="@Url.Content("~/Content/My.CSS/Order-Style.css")"
+          rel="stylesheet" />
+    <link href="@Url.Content("~/Content/My.CSS/Revenue-Style.css")"
+          rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Damion&family=Edu+QLD+Hand:wght@400..700&family=Playwrite+AR:wght@100..400&family=Roboto+Slab:wght@100..900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+</head>
+
+<body>
+
+    <!-- Phần nền phía sau logo và thông tin liên hệ -->
+    <div id="top-banner">
+
+        <div id="top">
+
+            <!-- Logo và tên quán -->
+            <div id="left-top">
+                <p>
+                    <img src="@Url.Content("~/image/cat-cafe-curling-cat-cute-badge.png")"
+                         alt="Logo mèo Mimi Coffee Shop" />
+                </p>
+
+                <h1 class="roboto-slab-ShuSmily">
+                    Mimi Coffee Shop
+                </h1>
+            </div>
+
+            <!-- Thông tin liên hệ -->
+            <div id="right-top">
+                <p>
+                    <span class="material-symbols-outlined">phone_in_talk</span>
+                    Hotline: 0383590218
+                </p>
+
+                <p>
+                    <span class="material-symbols-outlined">contact_mail</span>
+                    Contact Mail: ShuSmily@gmail.com
+                </p>
+
+                <!-- Đăng nhập / Đăng ký -->
+                <div class="auth-bar">
+                    @if (Session["UserId"] != null)
+                    {
+                        <span class="auth-hello">
+                            Xin chào, <strong>@Session["UserName"]</strong>
+                        </span>
+                        <a class="auth-btn auth-btn-logout" href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                    }
+                    else
+                    {
+                        <a class="auth-btn auth-btn-login" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                        <a class="auth-btn auth-btn-register" href="@Url.Action("Register", "Account")">Đăng ký</a>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Thanh điều hướng -->
+    @{
+        var navCtrl = (ViewContext.RouteData.Values["controller"] as string) ?? "";
+        var navAction = (ViewContext.RouteData.Values["action"] as string) ?? "";
+        var navAdmin = (Session["UserRole"] as string) == "Admin";
+    }
+    <nav id="site-nav">
+        <a class="@(navCtrl == "SanPham" ? "active" : "")" href="@Url.Action("Index", "SanPham")">Menu</a>
+        <a class="@(navCtrl == "Order" ? "active" : "")" href="@Url.Action("Index", "Order")">Hóa đơn<span class="cart-badge">@Shop_Management_CoffeeWebsite.Helpers.OrderHelper.CartBadgeText(Session)</span></a>
+        <a class="@(navCtrl == "Adoption" && navAction != "Manage" ? "active" : "")" href="@Url.Action("Index", "Adoption")">Nhận nuôi mèo</a>
+        @if (navAdmin)
+        {
+            <a class="@(navAction == "Manage" ? "active" : "")" href="@Url.Action("Manage", "Adoption")">Quản lý nhận nuôi</a>
+            <a class="@(navCtrl == "Revenue" ? "active" : "")" href="@Url.Action("Index", "Revenue")">Doanh thu</a>
+        }
+    </nav>
+
+    @if (TempData["Welcome"] != null)
+    {
+        <div class="flash-welcome">@TempData["Welcome"]</div>
+    }
+
+    <!-- Nội dung từng trang -->
+    <div id="main-content">
+        @RenderBody()
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

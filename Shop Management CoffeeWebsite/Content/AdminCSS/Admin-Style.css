@@ -1,0 +1,301 @@
+﻿
+/* =========================================
+   MIMI COFFEE SHOP - ADMIN STYLE
+   Mau sac: Kem - Nau cafe - Xanh olive
+========================================= */
+
+:root {
+    --coffee-dark: #38291f;
+    --coffee-brown: #76543b;
+    --coffee-light: #a9825c;
+    --cream: #faf7f0;
+    --cream-dark: #eee6d8;
+    --olive: #68764c;
+    --text-main: #3b3028;
+    --text-muted: #81766c;
+    --white: #ffffff;
+}
+
+/* Nen trang quan tri */
+body {
+    background: var(--cream);
+    color: var(--text-main);
+    font-family: Arial, sans-serif;
+}
+
+/* Header chung */
+#top-banner {
+    background: #fffdf8;
+    box-shadow: 0 3px 15px rgba(56, 41, 31, 0.08);
+    position: relative;
+    z-index: 5;
+}
+
+#top {
+    min-height: 95px;
+    padding: 8px 28px;
+}
+
+#left-top img {
+    width: 82px;
+    height: 82px;
+}
+
+#left-top h1 {
+    color: var(--coffee-dark);
+    font-size: 27px;
+}
+
+#right-top {
+    color: var(--coffee-brown);
+    font-size: 14px;
+}
+
+/* Khung trang quan tri */
+.admin-page,
+.admin-form-page {
+    max-width: 1450px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(56, 41, 31, 0.08);
+}
+
+    .admin-page h2,
+    .admin-form-page h2 {
+        color: var(--coffee-dark);
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 10px;
+    }
+
+.admin-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+/* Nut bam chung */
+.admin-page .btn,
+.admin-form-page .btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+    .admin-page .btn:hover,
+    .admin-form-page .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(56, 41, 31, 0.15);
+    }
+
+.btn-create {
+    background: var(--olive);
+    color: white !important;
+}
+
+    .btn-create:hover {
+        background: #53613b;
+    }
+
+.btn-home {
+    background: var(--cream-dark);
+    color: var(--coffee-dark) !important;
+}
+
+    .btn-home:hover {
+        background: #e2d3bf;
+    }
+
+/* Khu vuc bang */
+.admin-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #eee5d9;
+    border-radius: 12px;
+    margin-top: 25px;
+}
+
+.admin-table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    background: white;
+    font-size: 14px;
+}
+
+    .admin-table thead {
+        background: var(--coffee-dark);
+        color: white;
+    }
+
+    .admin-table th {
+        padding: 16px 12px;
+        text-align: left;
+        white-space: nowrap;
+        font-weight: 600;
+    }
+
+    .admin-table td {
+        padding: 13px 12px;
+        border-bottom: 1px solid #eee9e1;
+        vertical-align: middle;
+        line-height: 1.5;
+    }
+
+    .admin-table tbody tr:nth-child(even) {
+        background: #fcfaf6;
+    }
+
+    .admin-table tbody tr:hover {
+        background: #f2eee5;
+    }
+
+    /* Anh san pham trong bang */
+    .admin-table .product-thumb {
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #eee5d9;
+        transition: transform 0.2s;
+    }
+
+        .admin-table .product-thumb:hover {
+            transform: scale(1.1);
+        }
+
+/* Cac nut thao tac */
+.admin-actions {
+    min-width: 170px;
+    white-space: nowrap;
+}
+
+    .admin-actions a {
+        display: inline-block;
+        margin: 3px 2px;
+        padding: 6px 9px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+.action-edit {
+    background: #e9f0dc;
+    color: #536b38;
+}
+
+.action-details {
+    background: #e4edf6;
+    color: #38648a;
+}
+
+.action-delete {
+    background: #f8e4df;
+    color: #b34e3d;
+}
+
+.admin-actions a:hover {
+    filter: brightness(0.93);
+}
+
+/* Form them va sua san pham */
+.admin-form-page {
+    max-width: 850px;
+}
+
+    .admin-form-page .form-horizontal {
+        margin-top: 25px;
+    }
+
+    .admin-form-page .form-group {
+        margin-bottom: 20px;
+    }
+
+    .admin-form-page .control-label {
+        color: var(--coffee-dark);
+        font-weight: 600;
+        padding-top: 8px;
+    }
+
+    .admin-form-page .form-control {
+        width: 100%;
+        max-width: 100%;
+        min-height: 42px;
+        padding: 10px 13px;
+        border: 1px solid #ded4c6;
+        border-radius: 8px;
+        background: #fffdf9;
+        box-shadow: none;
+    }
+
+        .admin-form-page .form-control:focus {
+            border-color: var(--olive);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(104, 118, 76, 0.13);
+        }
+
+    .admin-form-page textarea.form-control {
+        min-height: 100px;
+    }
+
+    /* Nut luu */
+    .admin-form-page input[type="submit"] {
+        background: var(--olive);
+        color: white;
+        border: none;
+        padding: 11px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .admin-form-page input[type="submit"]:hover {
+            background: #53613b;
+        }
+
+    /* Loi validation */
+    .admin-form-page .text-danger {
+        color: #bd4b3e;
+        font-size: 13px;
+    }
+
+/* Responsive */
+@media (max-width: 768px) {
+    #top {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    #left-top img {
+        width: 65px;
+        height: 65px;
+    }
+
+    #left-top h1 {
+        font-size: 21px;
+    }
+
+    #right-top {
+        font-size: 12px;
+    }
+
+    .admin-page,
+    .admin-form-page {
+        margin: 18px 10px;
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+        .admin-page h2,
+        .admin-form-page h2 {
+            font-size: 22px;
+        }
+}
